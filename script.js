@@ -17,7 +17,7 @@ $("#loadInputBtn").click(function () {
     timeOuts.push(
       setTimeout(function () {
         updateMaze(mazeMatrix, nextMove);
-      }, index * 1000)
+      }, index * 10000)
     );
   });
 });
