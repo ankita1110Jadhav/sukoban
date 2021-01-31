@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="Sukoban Solver" />
+    <meta
+      property="og:description"
+      content="To solve all sukoban puzzel with minimum pushes"
+    />
+    <meta property="og:image" content="img/box.png" />
+    <meta
+      property="og:url"
+      content="https://github.com/ankita1110Jadhav/sukoban"
+    />
+
+    <title>Sukoban</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="module" src="sukoban.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Sukoban Solver</h1>
+      <p>To solve all Sukoban puzzel with minimum pushes</p>
+      <div class="jumbotron" id="input-div">
+        <div class="form-group">
+          <label for="input">Input:</label>
+          <textarea
+            class="form-control"
+            rows="10"
+            id="input"
+            required
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" id="loadInputBtn">Submit</button>
+        </div>
+        <p id="error"></p>
+        <p>
+          The first line consists of two integers r and c (both ≤ 20),
+          representing the number of rows and columns of the maze, respectively.
+          Following this are r lines each containing c characters. Each
+          character describes one cell of the maze. A cell full of rock is
+          indicated by a ‘#’ and an empty cell is represented by a ‘.’. Your
+          starting position is symbolized by ‘S’, the starting position of the
+          box by ‘B’ and the target cell by ‘T’.
+        </p>
+      </div>
+      <div class="jumbotron" id="level-div">
+        <button class="btn btn-default btn-back" id="backBtn">X</button>
+        <div id="level"></div>
+      </div>
+      <h1>Output:</h1>
+      <div class="container" id="output"></div>
+    </div>
+  </body>
+  <script type="module" src="script.js"></script>
+</html>
