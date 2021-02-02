@@ -15,7 +15,7 @@ const sukoban = (input) => {
     };
   if (r > 20 || c > 20)
     return {
-      error: "rows and coloms can't be bigger than 20",
+      error: "rows and coloms should be less than or equal to 20",
     };
   //creating matrix represntaion of maze
   const {
@@ -74,7 +74,7 @@ const sukoban = (input) => {
 //function to create matrix representation of maze
 function getMatixMaze(maze, r, c) {
   try {
-    if (maze.length != r)
+    if (maze.length < r)
       return {
         mazeMatrixError: `Invalid number of rows, Maze have ${maze.length} rows while inputed row count is ${r}`,
       };
@@ -108,12 +108,13 @@ function getAdjecentListGraph(vertices) {
   const adjList = new Map();
   for (let firstIndex = 0; firstIndex < vertices.length; firstIndex++) {
     adjList.set(vertices[firstIndex].toString(), []);
-    for (let secIndex = 0; secIndex < vertices.length; secIndex++) {
-      if (firstIndex === secIndex) continue; //if same node ignore
-      const playerRowMoves = vertices[firstIndex][0] - vertices[secIndex][0];
-      const playerColumnMoves = vertices[firstIndex][1] - vertices[secIndex][1];
-      const boxRowMoves = vertices[firstIndex][2] - vertices[secIndex][2];
-      const boxColumnMoves = vertices[firstIndex][3] - vertices[secIndex][3];
+    for (let secondIndex = 0; secondIndex < vertices.length; secondIndex++) {
+      if (firstIndex === secondIndex) continue; //if same node ignore
+      const playerRowMoves = vertices[firstIndex][0] - vertices[secondIndex][0];
+      const playerColumnMoves =
+        vertices[firstIndex][1] - vertices[secondIndex][1];
+      const boxRowMoves = vertices[firstIndex][2] - vertices[secondIndex][2];
+      const boxColumnMoves = vertices[firstIndex][3] - vertices[secondIndex][3];
 
       //count of moves in both rows and colums combaine
       const totalPlayerMoves =
@@ -125,8 +126,8 @@ function getAdjecentListGraph(vertices) {
       if (totalBoxMoves == 1) {
         //boxMoved: for push player current position should be boxed previos postion
         if (
-          vertices[secIndex][0] != vertices[firstIndex][2] ||
-          vertices[secIndex][1] != vertices[firstIndex][3]
+          vertices[secondIndex][0] != vertices[firstIndex][2] ||
+          vertices[secondIndex][1] != vertices[firstIndex][3]
         )
           continue;
         //check if player and boxed move in same direction otherwise ignore
@@ -138,7 +139,7 @@ function getAdjecentListGraph(vertices) {
       }
       adjList
         .get(vertices[firstIndex].toString())
-        .push(vertices[secIndex].toString());
+        .push(vertices[secondIndex].toString());
     }
   }
   return adjList;
