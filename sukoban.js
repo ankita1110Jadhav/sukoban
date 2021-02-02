@@ -11,7 +11,7 @@ const sukoban = (input) => {
   if (!r || !c)
     return {
       error:
-        "Line 1 of Input should be two integers seprated by space, Represention number of rows and coloums of maze",
+        "First line of Input should be 2 integers with space between them, Representing number of rows and coloums in the maze",
     };
   if (r > 20 || c > 20)
     return {
@@ -32,9 +32,10 @@ const sukoban = (input) => {
   //getting all possinle vertex for S
   //player can be anywhere where there is no #
   const possibleS = [];
-  for (let i = 0; i < r; i++) {
-    for (let j = 0; j < c; j++) {
-      if (mazeMatrix[i][j] !== WALL_CHAR) possibleS.push([i, j]);
+  for (let rowIndex = 0; rowIndex < r; rowIndex++) {
+    for (let colIndex = 0; colIndex < c; colIndex++) {
+      if (mazeMatrix[rowIndex][colIndex] !== WALL_CHAR)
+        possibleS.push([rowIndex, colIndex]);
     }
   }
   //all possible vertex for B will be same
@@ -42,10 +43,10 @@ const sukoban = (input) => {
 
   //creating array of all vertices of graph
   const vertices = [];
-  for (let i = 0; i < possibleS.length; i++) {
-    for (let j = 0; j < possibleB.length; j++) {
-      if (possibleS[i] !== possibleB[j])
-        vertices.push([...possibleS[i], ...possibleB[j]]);
+  for (let rowIndex = 0; rowIndex < possibleS.length; rowIndex++) {
+    for (let colIndex = 0; colIndex < possibleB.length; colIndex++) {
+      if (possibleS[rowIndex] !== possibleB[colIndex])
+        vertices.push([...possibleS[rowIndex], ...possibleB[colIndex]]);
     }
   }
 
@@ -79,17 +80,17 @@ function getMatixMaze(maze, r, c) {
       };
     let targetPosition, boxPosition, playerPosition;
     const mazeMatrix = [];
-    for (let i = 0; i < r; i++) {
-      mazeMatrix[i] = maze[i].split("");
-      if (mazeMatrix[i].length != c)
-        return { mazeMatrixError: "Invalid number of Colums at row:" + i };
-      if (mazeMatrix[i].indexOf(TARGET_CHAR) != -1)
-        targetPosition = [i, mazeMatrix[i].indexOf(TARGET_CHAR)];
-      if (mazeMatrix[i].indexOf(PLAYER_CHAR) != -1)
-        playerPosition = [i, mazeMatrix[i].indexOf(PLAYER_CHAR)];
+    for (let index = 0; index < r; index++) {
+      mazeMatrix[index] = maze[index].split("");
+      if (mazeMatrix[index].length != c)
+        return { mazeMatrixError: "Invalid number of Colums at row:" + index };
+      if (mazeMatrix[index].indexOf(TARGET_CHAR) != -1)
+        targetPosition = [index, mazeMatrix[index].indexOf(TARGET_CHAR)];
+      if (mazeMatrix[index].indexOf(PLAYER_CHAR) != -1)
+        playerPosition = [index, mazeMatrix[index].indexOf(PLAYER_CHAR)];
 
-      if (mazeMatrix[i].indexOf(BOX_CHAR) != -1)
-        boxPosition = [i, mazeMatrix[i].indexOf(BOX_CHAR)];
+      if (mazeMatrix[index].indexOf(BOX_CHAR) != -1)
+        boxPosition = [index, mazeMatrix[index].indexOf(BOX_CHAR)];
     }
     if (!targetPosition)
       return { mazeMatrixError: `Missing Target ${TARGET_CHAR}` };
@@ -105,14 +106,14 @@ function getMatixMaze(maze, r, c) {
 }
 function getAdjecentListGraph(vertices) {
   const adjList = new Map();
-  for (let i = 0; i < vertices.length; i++) {
-    adjList.set(vertices[i].toString(), []);
-    for (let j = 0; j < vertices.length; j++) {
-      if (i === j) continue; //if same node ignore
-      const playerRowMoves = vertices[i][0] - vertices[j][0];
-      const playerColumnMoves = vertices[i][1] - vertices[j][1];
-      const boxRowMoves = vertices[i][2] - vertices[j][2];
-      const boxColumnMoves = vertices[i][3] - vertices[j][3];
+  for (let firstIndex = 0; firstIndex < vertices.length; firstIndex++) {
+    adjList.set(vertices[firstIndex].toString(), []);
+    for (let secIndex = 0; secIndex < vertices.length; secIndex++) {
+      if (firstIndex === secIndex) continue; //if same node ignore
+      const playerRowMoves = vertices[firstIndex][0] - vertices[secIndex][0];
+      const playerColumnMoves = vertices[firstIndex][1] - vertices[secIndex][1];
+      const boxRowMoves = vertices[firstIndex][2] - vertices[secIndex][2];
+      const boxColumnMoves = vertices[firstIndex][3] - vertices[secIndex][3];
 
       //count of moves in both rows and colums combaine
       const totalPlayerMoves =
@@ -124,8 +125,8 @@ function getAdjecentListGraph(vertices) {
       if (totalBoxMoves == 1) {
         //boxMoved: for push player current position should be boxed previos postion
         if (
-          vertices[j][0] != vertices[i][2] ||
-          vertices[j][1] != vertices[i][3]
+          vertices[secIndex][0] != vertices[firstIndex][2] ||
+          vertices[secIndex][1] != vertices[firstIndex][3]
         )
           continue;
         //check if player and boxed move in same direction otherwise ignore
@@ -135,7 +136,9 @@ function getAdjecentListGraph(vertices) {
         )
           continue;
       }
-      adjList.get(vertices[i].toString()).push(vertices[j].toString());
+      adjList
+        .get(vertices[firstIndex].toString())
+        .push(vertices[secIndex].toString());
     }
   }
   return adjList;
