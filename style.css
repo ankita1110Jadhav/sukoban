@@ -9,9 +9,6 @@
   overflow: auto;
   position: relative;
 }
-.mazeRow {
-  overflow: scroll;
-}
 #output {
   font-size: 20px;
   height: 25px;
