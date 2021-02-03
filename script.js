@@ -36,7 +36,7 @@ $("#backBtn").click(function () {
 function getRederedMaze(mazeMatrix, nextMove) {
   let levelHtml = "";
   for (let i = 0; i < mazeMatrix.length; i++) {
-    levelHtml += `<div class="mazeRow">`;
+    levelHtml += `<div class="row">`;
     for (let j = 0; j < mazeMatrix[i].length; j++) {
       if (i == nextMove[0] && j == nextMove[1])
         levelHtml += `<div class="player"></div>`;
